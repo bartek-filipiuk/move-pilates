@@ -9,7 +9,8 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  // Light mode only - no dark mode
+  // Light mode only - force dark mode off by requiring a class that never exists
+  darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [tailwindcssAnimate, typography],
   prefix: '',
   safelist: [

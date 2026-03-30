@@ -12,15 +12,11 @@ export const Logo = (props: Props) => {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'My Website'
 
   return (
-    <svg
-      className={clsx('max-w-[12rem] w-full h-[34px]', className)}
-      viewBox="0 0 240 34"
-      fill="currentColor"
+    <span
+      className={clsx('font-serif text-xl font-medium tracking-wide', className)}
       aria-label={`${siteName} Logo`}
     >
-      <text x="0" y="26" fontSize="22" fontWeight="500" fontFamily="var(--font-playfair), Georgia, serif" letterSpacing="0.5">
-        {siteName}
-      </text>
-    </svg>
+      {siteName}
+    </span>
   )
 }
