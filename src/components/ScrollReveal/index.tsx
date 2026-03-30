@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, type ReactNode } from 'react'
 
 interface ScrollRevealProps {
   children: ReactNode
-  animation?: 'fade-up' | 'fade-in'
+  animation?: 'fade-up' | 'fade-in' | 'scale-up'
   delay?: number
   duration?: number
   threshold?: number
