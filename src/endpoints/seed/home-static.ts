@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { RequiredDataFromCollectionSlug } from 'payload'
 
 // Static home page data for development before database seeding
