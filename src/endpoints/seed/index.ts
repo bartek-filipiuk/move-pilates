@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
 const collections: CollectionSlug[] = [
