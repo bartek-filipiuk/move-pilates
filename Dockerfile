@@ -72,5 +72,5 @@ EXPOSE 3000
 
 ENV PORT=3000
 
-# Run migrations then start server
-CMD npx payload migrate --config ./src/payload.config.ts || echo "Migration skipped"; HOSTNAME="0.0.0.0" node server.js
+# Start server (schema sync handled by Payload's push:true in payload.config.ts)
+CMD ["sh", "-c", "HOSTNAME=0.0.0.0 node server.js"]
