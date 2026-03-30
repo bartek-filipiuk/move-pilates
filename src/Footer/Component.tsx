@@ -11,8 +11,8 @@ import { ContactInfo } from '@/components/ContactInfo'
 import { NewsletterForm } from '@/components/NewsletterForm'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
-  const siteSettings: SiteSetting = await getCachedGlobal('site-settings', 1)()
+  const footerData = await getCachedGlobal('footer', 1)() as Footer
+  const siteSettings = await getCachedGlobal('site-settings', 1)() as SiteSetting
 
   const navItems = footerData?.navItems || []
   const showSocialLinks = footerData?.showSocialLinks ?? true
