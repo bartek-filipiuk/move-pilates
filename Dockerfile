@@ -72,5 +72,9 @@ EXPOSE 3000
 
 ENV PORT=3000
 
-# Start server (schema sync handled by Payload's push:true in payload.config.ts)
-CMD ["sh", "-c", "HOSTNAME=0.0.0.0 node server.js"]
+# Schema sync: push NEVER runs with NODE_ENV=production (db-postgres connect.js),
+# so run migrations here. clear-dev-migrations removes the dev push marker first -
+# without that, `payload migrate` opens an interactive prompt and hangs in a TTY-less
+# container (the March 2026 deploy hang). Server starts even if migrate fails, so a
+# broken migration degrades to "new field won't save" instead of taking the site down.
+CMD ["sh", "-c", "node src/scripts/clear-dev-migrations.mjs && npx payload migrate --config ./src/payload.config.ts; HOSTNAME=0.0.0.0 node server.js"]
