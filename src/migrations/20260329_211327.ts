@@ -1,6 +1,14 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+  // Baseline guard: prod dostal ten schemat zanim wlaczylismy prodMigrations,
+  // wiec jesli tabele juz istnieja - tylko oznacz migracje jako wykonana.
+  const existing = await db.execute(sql`SELECT to_regclass('public.pages') AS table_exists`)
+  if (existing.rows?.[0]?.table_exists) {
+    payload.logger.info('Initial schema already present - marking migration as baseline')
+    return
+  }
+
   await db.execute(sql`
    CREATE TYPE "public"."_locales" AS ENUM('pl', 'en');
   CREATE TYPE "public"."enum_pages_hero_links_link_type" AS ENUM('reference', 'custom');

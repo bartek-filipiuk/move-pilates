@@ -79,6 +79,15 @@ export const Pricing: Block = {
           name: 'description',
           type: 'textarea',
         },
+        {
+          name: 'url',
+          type: 'text',
+          label: 'Link URL (whole card becomes clickable)',
+          validate: (value: string | null | undefined) =>
+            !value ||
+            /^(https?:\/\/|\/|#|mailto:|tel:)/i.test(value) ||
+            'Podaj pelny adres z https:// albo sciezke zaczynajaca sie od /',
+        },
       ],
     },
   ],

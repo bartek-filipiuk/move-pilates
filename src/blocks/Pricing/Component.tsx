@@ -57,15 +57,31 @@ export const PricingBlock: React.FC<PricingProps> = ({
           <div className="carnets-section">
             <h3 className="carnets-title">Karnety</h3>
             <div className="carnets-grid">
-              {carnets.map((carnet, index) => (
-                <div key={index} className="carnet-card">
-                  <div className="carnet-title">{carnet.title}</div>
-                  <div className="carnet-price">{carnet.price}</div>
-                  {carnet.description && (
-                    <p className="carnet-description">{carnet.description}</p>
-                  )}
-                </div>
-              ))}
+              {carnets.map((carnet, index) => {
+                // tylko bezpieczne schematy trafiaja do href (blokuje javascript:)
+                const href =
+                  carnet.url && /^(https?:\/\/|\/|#|mailto:|tel:)/i.test(carnet.url)
+                    ? carnet.url
+                    : undefined
+                const CardTag = href ? 'a' : 'div'
+                const isExternal = href?.startsWith('http')
+
+                return (
+                  <CardTag
+                    key={index}
+                    className={`carnet-card ${href ? 'carnet-card-link' : ''}`}
+                    href={href}
+                    rel={isExternal ? 'noopener noreferrer' : undefined}
+                    target={isExternal ? '_blank' : undefined}
+                  >
+                    <div className="carnet-title">{carnet.title}</div>
+                    <div className="carnet-price">{carnet.price}</div>
+                    {carnet.description && (
+                      <p className="carnet-description">{carnet.description}</p>
+                    )}
+                  </CardTag>
+                )
+              })}
             </div>
           </div>
         )}

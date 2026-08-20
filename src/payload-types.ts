@@ -809,6 +809,7 @@ export interface PricingBlock {
         title: string;
         price: string;
         description?: string | null;
+        url?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1439,6 +1440,7 @@ export interface PricingBlockSelect<T extends boolean = true> {
         title?: T;
         price?: T;
         description?: T;
+        url?: T;
         id?: T;
       };
   id?: T;

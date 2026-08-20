@@ -738,6 +738,22 @@ h2 {
   text-align: center;
 }
 
+.carnet-card-link {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carnet-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px hsl(var(--foreground) / 0.1);
+}
+
+.carnet-card-link:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
 .carnet-title {
   font-weight: 600;
   margin-bottom: 0.5rem;
