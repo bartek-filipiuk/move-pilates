@@ -1,11 +1,15 @@
 import type { GlobalConfig } from 'payload'
 
+import { authenticated } from '@/access/authenticated'
+
 import { revalidateSiteSettings } from './hooks/revalidateSiteSettings'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   access: {
     read: () => true,
+    // Same as the Payload default, made explicit: every account in `users` is a site admin.
+    update: authenticated,
   },
   fields: [
     {

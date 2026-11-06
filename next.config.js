@@ -35,6 +35,22 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  async headers() {
+    return [
+      {
+        // Uploads are written to public/media and served same-origin as /admin. An SVG opened
+        // as a page must not run script or load anything (stored XSS -> admin session);
+        // <img> rendering is unaffected. /api/media/file/* gets the same policy from Payload.
+        source: '/media/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

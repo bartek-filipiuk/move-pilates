@@ -4,6 +4,8 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
+import { anyone } from '@/access/anyone'
+import { authenticated } from '@/access/authenticated'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -30,6 +32,8 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
+      // Same as the plugin default, made explicit: every account in `users` is a site admin.
+      access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -62,6 +66,7 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
+      access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
@@ -81,6 +86,10 @@ export const plugins: Plugin[] = [
           return field
         })
       },
+    },
+    // Visitors submit forms; only logged-in admins read or delete submissions, nobody edits them.
+    formSubmissionOverrides: {
+      access: { create: anyone, read: authenticated, update: () => false, delete: authenticated },
     },
   }),
   searchPlugin({
